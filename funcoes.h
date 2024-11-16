@@ -5,8 +5,8 @@
 
 
 /*Constantes*/
-# define LINHAS 20
-# define COLUNAS 40
+# define LINHAS 40
+# define COLUNAS 80
 # define GOL 8 
 # define ESPACAMENTO_BARRA_JOGADOR 10
 # define TAM_BARRA_JOGADOR 3
@@ -22,12 +22,14 @@ typedef struct _player_1
 {
     COORD coordenada_player1;
     COORD gol;
+    int inicio;
 }JOGADOR_1;
 
 typedef struct _player_2
 {
     COORD coordenada_player2;
     COORD gol;
+    int inicio;
 }JOGADOR_2;
 
 typedef struct _eventos
@@ -48,14 +50,9 @@ enum
 {
     DIAGONAL_SUPERIOR_ESQUERDA = 1,
     DIAGONAL_SUPERIOR_DIREITA,
-    ESQUERDA,
-    DIREITA,
-    CIMA,
-    BAIXO,
     DIAGONAL_INFERIOR_DIREITA,
     DIAGONAL_INFERIOR_ESQUERDA
 };
-
 
 void Pega_entrada(EVENTOS_DO_TECLADO *, JOGADOR_1 *, JOGADOR_2 *, JANELA *);
 
@@ -69,3 +66,6 @@ void Apaga_jogador_2(JOGADOR_2 *);
 
 void Desenha_direcao_bolinha(BOLINHA *);
 void Altera_direcao_da_bolinha(BOLINHA *, JANELA *);
+void Choque_Bolinha_jogador(JOGADOR_1 *, JOGADOR_2 *, BOLINHA *);
+void Fim_de_jogo(EVENTOS_DO_TECLADO *, JOGADOR_1 *, JOGADOR_2 *, BOLINHA *);
+void Imprime_vencedor(BOLINHA *);

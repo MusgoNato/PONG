@@ -4,7 +4,7 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/iuricode/README-template?style=for-the-badge)
 ![GitHub forks](https://img.shields.io/github/forks/iuricode/README-template?style=for-the-badge)
 
-<img src="/video-programa/" alt="Programa Rodando">
+<img src="/video-programa/pong.gif" alt="Programa Rodando">
 
 > Jogo do Atari PONG em C.
 
@@ -48,6 +48,8 @@ Controle 1:
 Controle 2:
 - Seta para cima : Move a barra para cima
 - Seta para baixo : Move a barra para baixo  
+
+O vencedor é quem acertar o gol do adversário. Divirta-se ✌️
 
 ## 🤝 Desenvolvedor
 <table>

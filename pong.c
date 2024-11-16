@@ -40,7 +40,8 @@ int main(int argc, char *argv[])
 
     /*Randomiza a direcao*/
     srand(time(NULL));
-    bola.direcao = 1 + rand() % 8;
+    
+    bola.direcao = 1 + rand() % 4;
 
     /*limpa a tela*/
     clrscr();
@@ -69,6 +70,8 @@ int main(int argc, char *argv[])
 
         Desenha_direcao_bolinha(&bola);
         Altera_direcao_da_bolinha(&bola, &janela);
+        Choque_Bolinha_jogador(&player_1, &player_2, &bola);
+        Fim_de_jogo(&teclas_evento, &player_1, &player_2, &bola);
 
         Sleep(TEMPO_DO_JOGO);
 
@@ -78,6 +81,8 @@ int main(int argc, char *argv[])
     textbackground(BLACK);
     textcolor(LIGHTGRAY);
     setCursorStatus(_SOLIDCURSOR);
+
+    Imprime_vencedor(&bola);
 
     return 0;
 

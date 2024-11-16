@@ -1,4 +1,5 @@
 # include <stdio.h>
+# include <string.h>
 # include <time.h>
 # include "conio_v3.2.4.h"  
 # include "console_v1.5.5.h"   
@@ -53,7 +54,7 @@ void Area_do_gol(JANELA *janela, JOGADOR_1 *player_1, JOGADOR_2 *player_2)
     player_2->gol.X = COLUNAS + 1;
     player_2->gol.Y = (LINHAS - GOL) / 2;
 
-    textbackground(WHITE);
+    textbackground(BLACK);
 
     /*Area esquerda*/
     for(i = 0; i < GOL; i++)
@@ -77,9 +78,9 @@ void Desenha_Jogador_1(JOGADOR_1 *jogador_1)
     int i;
     for(i = 0; i < TAM_BARRA_JOGADOR; i++)
     {
-        textbackground(YELLOW);
+        textbackground(BLACK);
         gotoxy(jogador_1->coordenada_player1.X, jogador_1->coordenada_player1.Y + i);
-        printf(" ");
+        putchar(124);
     }
 }
 
@@ -90,9 +91,9 @@ void Desenha_Jogador_2(JOGADOR_2 *jogador_2)
 
     for(i = 0; i < TAM_BARRA_JOGADOR; i++)
     {
-        textbackground(GREEN);
+        textbackground(BLACK);
         gotoxy(jogador_2->coordenada_player2.X - ESPACAMENTO_BARRA_JOGADOR, jogador_2->coordenada_player2.Y + i);
-        printf(" ");
+        putchar(124);
     }    
 
     
@@ -208,18 +209,6 @@ void Apaga_jogador_2(JOGADOR_2 *jogador_2)
 
 void Altera_direcao_da_bolinha(BOLINHA *bola, JANELA *janela)
 {
-    /*Referente a cima e baixo*/
-    if(bola->coordenada_bolinha.Y < janela->Janela.Y + 2 && bola->direcao == CIMA)
-    {
-        bola->direcao = BAIXO;
-    }
-
-    if(bola->coordenada_bolinha.Y == LINHAS && bola->direcao == BAIXO)
-    {
-        bola->direcao = CIMA;
-    }
-
-
     /*Referente as diagonais*/
     if(bola->coordenada_bolinha.Y <= janela->Janela.Y + 1 && bola->direcao == DIAGONAL_SUPERIOR_DIREITA)
     {
@@ -260,17 +249,6 @@ void Altera_direcao_da_bolinha(BOLINHA *bola, JANELA *janela)
     {
         bola->direcao = DIAGONAL_INFERIOR_DIREITA;
     }
-    
-    /*Esquerda e direita*/
-    if(bola->coordenada_bolinha.X == COLUNAS && bola->direcao == DIREITA)
-    {
-        bola->direcao = ESQUERDA;
-    }
-
-    if(bola->coordenada_bolinha.X < janela->Janela.Y + 2 && bola->direcao == ESQUERDA)
-    {
-        bola->direcao = DIREITA;
-    }
 
 }
 
@@ -297,16 +275,6 @@ void Desenha_direcao_bolinha(BOLINHA *bola)
             bola->coordenada_bolinha.Y++;
             break;
         }
-        case CIMA:
-        {
-            bola->coordenada_bolinha.Y--;
-            break;
-        }
-        case BAIXO:
-        {
-            bola->coordenada_bolinha.Y++;
-            break;
-        }
         case DIAGONAL_SUPERIOR_DIREITA:
         {
             bola->coordenada_bolinha.X++;
@@ -319,16 +287,6 @@ void Desenha_direcao_bolinha(BOLINHA *bola)
             bola->coordenada_bolinha.Y--;
             break;
         }
-        case DIREITA:
-        {
-            bola->coordenada_bolinha.X++;
-            break;
-        }
-        case ESQUERDA:
-        {
-            bola->coordenada_bolinha.X--;
-            break;
-        }
     }
 
     textbackground(WHITE_BRUSH);
@@ -336,4 +294,80 @@ void Desenha_direcao_bolinha(BOLINHA *bola)
     gotoxy(bola->coordenada_bolinha.X, bola->coordenada_bolinha.Y);
     printf("*");
     
+}
+
+
+void Choque_Bolinha_jogador(JOGADOR_1 *jogador_1, JOGADOR_2 *jogador_2, BOLINHA *bola)
+{
+    
+    /**
+     * Movimentos das diagonais para o choque da bolinha com o jogador 1
+     */
+    jogador_2 = jogador_2;
+
+    if(((bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR + 2 && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y) || (bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR + 2 && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y + 1) || (bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR + 2 && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y + 2)) && bola->direcao == DIAGONAL_INFERIOR_ESQUERDA)
+    {
+        bola->direcao = DIAGONAL_INFERIOR_DIREITA;
+    }
+
+    if(((bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR + 2 && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y) || (bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR + 2 && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y + 1) || (bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR + 2 && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y + 2)) && bola->direcao == DIAGONAL_SUPERIOR_ESQUERDA)
+    {
+        bola->direcao = DIAGONAL_SUPERIOR_DIREITA;
+    }
+
+    if(((bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y) || (bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y + 1) || (bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y + 2)) && bola->direcao == DIAGONAL_INFERIOR_DIREITA)
+    {
+        bola->direcao = DIAGONAL_INFERIOR_ESQUERDA;
+    }
+
+    if(((bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y) || (bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y + 1) || (bola->coordenada_bolinha.X == ESPACAMENTO_BARRA_JOGADOR && bola->coordenada_bolinha.Y == jogador_1->coordenada_player1.Y + 2)) && bola->direcao == DIAGONAL_SUPERIOR_DIREITA)
+    {
+        bola->direcao = DIAGONAL_SUPERIOR_ESQUERDA;
+    }
+
+
+    /**
+     * Movimentos das diagonais do choque da bolinha com o jogador 2
+     */
+
+    if(((bola->coordenada_bolinha.X == (COLUNAS - ESPACAMENTO_BARRA_JOGADOR + 2) && bola->coordenada_bolinha.Y == jogador_2->coordenada_player2.Y) || (bola->coordenada_bolinha.X == (COLUNAS - ESPACAMENTO_BARRA_JOGADOR + 2) && bola->coordenada_bolinha.Y == jogador_2->coordenada_player2.Y + 1) || (bola->coordenada_bolinha.X == (COLUNAS - ESPACAMENTO_BARRA_JOGADOR + 2) && bola->coordenada_bolinha.Y == jogador_2->coordenada_player2.Y + 2)) && bola->direcao == DIAGONAL_INFERIOR_ESQUERDA)
+    {
+        bola->direcao = DIAGONAL_INFERIOR_DIREITA;
+    }
+
+    if(((bola->coordenada_bolinha.X == (COLUNAS - ESPACAMENTO_BARRA_JOGADOR + 2) && bola->coordenada_bolinha.Y == jogador_2->coordenada_player2.Y) || (bola->coordenada_bolinha.X == (COLUNAS - ESPACAMENTO_BARRA_JOGADOR + 2) && bola->coordenada_bolinha.Y == jogador_2->coordenada_player2.Y + 1) || (bola->coordenada_bolinha.X == (COLUNAS - ESPACAMENTO_BARRA_JOGADOR + 2) && bola->coordenada_bolinha.Y == jogador_2->coordenada_player2.Y + 2)) && bola->direcao == DIAGONAL_SUPERIOR_ESQUERDA)
+    {
+        bola->direcao = DIAGONAL_SUPERIOR_DIREITA;
+    }
+}
+
+void Fim_de_jogo(EVENTOS_DO_TECLADO *teclas_evento, JOGADOR_1 *jogador_1, JOGADOR_2 *jogador_2, BOLINHA *bola)
+{   
+
+    /*Caso atinja o gol do jogador 1*/
+    if(bola->coordenada_bolinha.X == jogador_1->gol.X + 1 && bola->coordenada_bolinha.Y >= jogador_1->gol.Y && bola->coordenada_bolinha.Y <= jogador_1->gol.Y + GOL)
+    {
+        teclas_evento->saida = 0;
+    }
+
+    /*Caso atinja o gol do jogador 2*/
+    if(bola->coordenada_bolinha.X == jogador_2->gol.X - 1 && bola->coordenada_bolinha.Y >= jogador_2->gol.Y && bola->coordenada_bolinha.Y < jogador_2->gol.Y + GOL)
+    {
+        teclas_evento->saida = 0;
+    }
+} 
+
+void Imprime_vencedor(BOLINHA *bola)
+{
+    /*Impressao do vitorioso*/
+    if(bola->direcao == DIAGONAL_INFERIOR_ESQUERDA || bola->direcao == DIAGONAL_SUPERIOR_ESQUERDA)
+    {
+        gotoxy(1, LINHAS + 2);
+        printf("Parabens, jogador 1 ganhou!\n");
+    }
+    else
+    {
+        gotoxy(1, LINHAS + 2);
+        printf("Parabens, jogador 2 ganhou!\n");
+    }
 }
